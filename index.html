@@ -8,11 +8,17 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-900 text-white font-sans">
-  <!-- Navbar -->
+
+   <!-- Navbar -->
   <nav class="bg-gray-800 p-4 fixed w-full top-0 z-50">
     <div class="container mx-auto flex justify-between items-center">
-      <a href="#home" class="text-2xl font-bold text-blue-400">Itua George Osagie</a>
-      <ul class="flex space-x-6">
+      <a href="#home" class="text-2xl font-bold text-blue-400">Itua George</a>
+      <!-- Hamburger Menu (Mobile Only) -->
+      <button id="menu-toggle" class="text-white focus:outline-none md:hidden">
+        <i id="menu-icon" class="fas fa-bars text-2xl"></i>
+      </button>
+      <!-- Nav Links -->
+      <ul id="nav-links" class="hidden md:flex space-x-6">
         <li><a href="#home" class="hover:text-blue-400">Home</a></li>
         <li><a href="#about" class="hover:text-blue-400">About</a></li>
         <li><a href="#skills" class="hover:text-blue-400">Skills</a></li>
@@ -21,6 +27,10 @@
       </ul>
     </div>
   </nav>
+
+   <!-- Backdrop for Mobile (Hidden by Default) -->
+   <div id="backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+
 
   <!-- Home Section -->
   <section id="home" class="h-screen flex items-center justify-center bg-gray-900">
@@ -142,8 +152,37 @@
     </div>
   </footer>
 
-  <!-- Smooth Scroll JavaScript -->
+  <!-- JavaScript for Toggle Functionality -->
   <script>
+    // Toggle Navbar on Mobile
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const menuIcon = document.getElementById('menu-icon');
+    const backdrop = document.getElementById('backdrop');
+
+    menuToggle.addEventListener('click', () => {
+      // Toggle Navbar Links
+      navLinks.classList.toggle('hidden');
+      // Toggle Backdrop
+      backdrop.classList.toggle('hidden');
+      // Toggle Menu Icon (Hamburger ↔ Close)
+      menuIcon.classList.toggle('fa-bars');
+      menuIcon.classList.toggle('fa-times');
+    });
+
+    // Close Navbar when a link is clicked (Mobile Only)
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 768) { // Only for mobile
+          navLinks.classList.add('hidden');
+          backdrop.classList.add('hidden');
+          menuIcon.classList.remove('fa-times');
+          menuIcon.classList.add('fa-bars');
+        }
+      });
+    });
+
+    // Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
